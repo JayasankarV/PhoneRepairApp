@@ -1,26 +1,36 @@
 'use client'
 
-'use client'
-
 import { useState } from 'react'
 import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Smartphone, PlusIcon, PauseCircle, CheckCircle, Menu } from "lucide-react"
-
-// ... rest of your component code
+import RepairPage from './repair-page'
 
 export default function Home() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
-  const username = "John" // This would typically come from a user context or prop
+  const [showRepairPage, setShowRepairPage] = useState(false)
+  const username = "John"
   const phonesRepaired = 1234
   const amountEarned = 98765
   const freeRepairsLeft = 3
 
+  const handleStartRepair = () => {
+    setShowRepairPage(true)
+  }
+
+  const handleBackToHome = () => {
+    setShowRepairPage(false)
+  }
+
+  if (showRepairPage) {
+    return <RepairPage onBackToHome={handleBackToHome} />
+  }
+
   return (
     <div className="flex flex-col md:flex-row h-screen bg-gradient-to-br from-red-50 to-cyan-50">
-      <Button 
+      <Button
         className="md:hidden fixed top-4 left-4 z-50 bg-red-600 hover:bg-red-700 text-white"
         onClick={() => setSidebarOpen(!sidebarOpen)}
       >
@@ -42,7 +52,7 @@ export default function Home() {
         ))}
         <h2 className="text-cyan-800 mt-4 mb-2 font-semibold">Completed Repairs</h2>
         {["iPad Air Screen Replacement", "Google Pixel Camera Fix"].map((title, index) => (
-          <div key={index} className="bg-cyan-50 text-cyan-800 p-3 rounded mb-2 cursor-pointer hover: bg-cyan-100 transition-colors duration-200">
+          <div key={index} className="bg-cyan-50 text-cyan-800 p-3 rounded mb-2 cursor-pointer hover:bg-cyan-100 transition-colors duration-200">
             <div className="font-semibold flex items-center">
               <CheckCircle className="mr-2 h-4 w-4 text-cyan-600" />
               {title}
@@ -77,7 +87,10 @@ export default function Home() {
           <p className="text-base md:text-lg text-yellow-800 font-semibold">90-Day Warranty</p>
         </div>
         <div className="relative">
-          <Button className="bg-red-600 hover:bg-red-700 text-white text-lg md:text-xl py-4 md:py-6 px-8 md:px-12 rounded-lg flex items-center gap-3 transition-colors duration-200 shadow-lg">
+          <Button 
+            className="bg-red-600 hover:bg-red-700 text-white text-lg md:text-xl py-4 md:py-6 px-8 md:px-12 rounded-lg flex items-center gap-3 transition-colors duration-200 shadow-lg"
+            onClick={handleStartRepair}
+          >
             <Smartphone className="w-5 h-5 md:w-6 md:h-6" />
             Start Repair
           </Button>
